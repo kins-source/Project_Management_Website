@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus | Enterprise Project Management Platform</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Inter Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+  <script src="filter.js" defer></script>
+  
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+  <!-- Status Bar -->
+  <div class="h-1.5 bg-gradient-to-r from-green-500 to-emerald-600 relative overflow-hidden">
+    <div class="absolute top-0 left-0 h-full bg-gradient-to-r from-green-400 to-emerald-500 w-1/3 animate-pulse"></div>
+  </div>
+
+  <!-- Mobile Menu Toggle -->
+  <button id="mobile-menu-toggle" class="md:hidden fixed top-4 left-4 z-20 p-2 rounded-lg bg-white dark:bg-gray-800 shadow-md">
+    <i class="fas fa-bars text-gray-700 dark:text-gray-200"></i>
+  </button>
+
+  <!-- Main Layout -->
+  <div class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar w-64 bg-gradient-to-b from-gray-900 to-gray-950 text-white flex flex-col shadow-2xl z-10 transition-transform duration-300">
+      <!-- Logo & User -->
+      <div class="p-5 border-b border-gray-800">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+              <i class="fas fa-project-diagram text-white text-lg"></i>
+            </div>
+            <span class="ml-3 font-bold text-xl tracking-tight">Nexus</span>
+          </div>
+          <button id="theme-toggle" class="p-1.5 rounded-lg hover:bg-gray-800 transition-colors">
+            <i class="fas fa-moon text-gray-400"></i>
+          </button>
+        </div>
+        <div class="mt-4 flex items-center">
+          <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center font-bold text-sm">AR</div>
+          <div class="ml-3">
+            <div class="font-semibold text-sm">Alex Rivera</div>
+            <div class="text-xs text-gray-400 flex items-center">
+              <span class="status-indicator status-online mr-1"></span>
+              Online
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="p-4 border-b border-gray-800">
+        <div class="relative">
+          <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm"></i>
+          <input 
+            type="text" 
+            id="global-search" 
+            placeholder="Search projects, tasks..." 
+            class="w-full pl-10 pr-4 py-3 bg-gray-800 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          >
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="flex-1 overflow-y-auto px-3 py-4">
+        <div class="px-2 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          Main Navigation
+        </div>
+        <ul class="space-y-1">
+          <li>
+            <button id="nav-dashboard" class="w-full flex items-center px-4 py-3 rounded-xl text-left hover:bg-gray-800 transition-colors active bg-gray-800">
+              <i class="fas fa-home mr-3 w-5 text-blue-400"></i>
+              <span class="font-medium">Dashboard</span>
+            </button>
+          </li>
+          <li>
+            <button id="nav-board" class="w-full flex items-center px-4 py-3 rounded-xl text-left hover:bg-gray-800 transition-colors">
+              <i class="fas fa-columns mr-3 w-5 text-gray-400"></i>
+              <span class="font-medium">Board</span>
+            </button>
+          </li>
+          <li>
+            <button id="nav-list" class="w-full flex items-center px-4 py-3 rounded-xl text-left hover:bg-gray-800 transition-colors">
+              <i class="fas fa-list mr-3 w-5 text-gray-400"></i>
+              <span class="font-medium">List</span>
+            </button>
+          </li>
+          <li>
+            <button id="nav-calendar" class="w-full flex items-center px-4 py-3 rounded-xl text-left hover:bg-gray-800 transition-colors">
+              <i class="fas fa-calendar-alt mr-3 w-5 text-gray-400"></i>
+              <span class="font-medium">Calendar</span>
+            </button>
+          </li>
+          <li>
+            <button id="nav-timeline" class="w-full flex items-center px-4 py-3 rounded-xl text-left hover:bg-gray-800 transition-colors">
+              <i class="fas fa-chart-line mr-3 w-5 text-gray-400"></i>
+              <span class="font-medium">Timeline</span>
+            </button>
+          </li>
+        </ul>
+
+        <div class="px-2 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider mt-4">
+          Workspaces
+        </div>
+        <ul class="space-y-1">
+          <li>
+            <button class="w-full flex items-center px-4 py-3 rounded-xl text-left hover:bg-gray-800 transition-colors">
+              <div class="w-3 h-3 rounded-full bg-green-500 mr-3"></div>
+              <span class="font-medium">Acme Corp</span>
+            </button>
+          </li>
+          <li>
+            <button class="w-full flex items-center px-4 py-3 rounded-xl text-left hover:bg-gray-800 transition-colors">
+              <div class="w-3 h-3 rounded-full bg-amber-500 mr-3"></div>
+              <span class="font-medium">Nexus Labs</span>
+            </button>
+          </li>
+          <li>
+            <button class="w-full flex items-center px-4 py-3 rounded-xl text-left hover:bg-gray-800 transition-colors">
+              <div class="w-3 h-3 rounded-full bg-blue-500 mr-3"></div>
+              <span class="font-medium">Open Source</span>
+            </button>
+          </li>
+        </ul>
+
+        <div class="px-2 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider mt-4">
+          Projects
+        </div>
+        <ul id="project-list" class="space-y-1">
+          <!-- Projects populated by JS -->
+        </ul>
+
+        <div class="px-2 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider mt-4">
+          Quick Access
+        </div>
+        <ul class="space-y-1">
+          <li>
+            <button class="w-full flex items-center px-4 py-3 rounded-xl text-left hover:bg-gray-800 transition-colors">
+              <i class="fas fa-star mr-3 w-5 text-yellow-500"></i>
+              <span class="font-medium">Starred</span>
+            </button>
+          </li>
+          <li>
+            <button id="nav-notifications" class="w-full flex items-center px-4 py-3 rounded-xl text-left hover:bg-gray-800 transition-colors">
+              <i class="fas fa-bell mr-3 w-5 text-gray-400"></i>
+              <span class="font-medium">Notifications</span>
+              <span class="ml-auto bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">3</span>
+            </button>
+          </li>
+          <li>
+            <button class="w-full flex items-center px-4 py-3 rounded-xl text-left hover:bg-gray-800 transition-colors">
+              <i class="fas fa-archive mr-3 w-5 text-gray-400"></i>
+              <span class="font-medium">Archive</span>
+            </button>
+          </li>
+          <li>
+            <button class="w-full flex items-center px-4 py-3 rounded-xl text-left hover:bg-gray-800 transition-colors">
+              <i class="fas fa-bookmark mr-3 w-5 text-gray-400"></i>
+              <span class="font-medium">Bookmarks</span>
+            </button>
+          </li>
+        </ul>
+
+        <div class="px-2 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider mt-4">
+          Resources
+        </div>
+        <ul class="space-y-1">
+          <li>
+            <button class="w-full flex items-center px-4 py-3 rounded-xl text-left hover:bg-gray-800 transition-colors">
+              <i class="fas fa-file-alt mr-3 w-5 text-gray-400"></i>
+              <span class="font-medium">Documentation</span>
+            </button>
+          </li>
+          <li>
+            <button class="w-full flex items-center px-4 py-3 rounded-xl text-left hover:bg-gray-800 transition-colors">
+              <i class="fas fa-headset mr-3 w-5 text-gray-400"></i>
+              <span class="font-medium">Support</span>
+            </button>
+          </li>
+          <li>
+            <button class="w-full flex items-center px-4 py-3 rounded-xl text-left hover:bg-gray-800 transition-colors">
+              <i class="fas fa-lightbulb mr-3 w-5 text-gray-400"></i>
+              <span class="font-medium">Roadmap</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- User Settings -->
+      <div class="p-4 border-t border-gray-800">
+        <button class="flex items-center w-full p-3 rounded-xl hover:bg-gray-800 transition-colors">
+          <i class="fas fa-cog mr-3 w-5 text-gray-400"></i>
+          <span class="font-medium">Settings</span>
+        </button>
+        <button id="logout-btn" class="flex items-center w-full p-3 rounded-xl hover:bg-gray-800 transition-colors text-red-400">
+          <i class="fas fa-sign-out-alt mr-3 w-5"></i>
+          <span class="font-medium">Log Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content flex flex-col flex-1 overflow-hidden">
+      <!-- Top Bar -->
+      <header class="h-16 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center px-6 shadow-sm z-10">
+        <div class="flex items-center flex-1">
+          <div class="flex items-center">
+            <h1 id="current-page-title" class="text-xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+            <div class="ml-5 flex items-center text-sm text-gray-500 dark:text-gray-400">
+              <span>Acme Corp</span>
+              <i class="fas fa-chevron-right mx-2"></i>
+              <span id="current-project-title" class="font-medium text-gray-900 dark:text-white">Nexus Core Engine</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-5">
+          <div class="relative">
+            <button id="notification-btn" class="p-2.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+              <i class="fas fa-bell text-gray-600 dark:text-gray-300"></i>
+              <span id="notification-count" class="badge">3</span>
+            </button>
+          </div>
+          
+          <div class="flex items-center space-x-3">
+            <!-- Filter Dropdown -->
+            <div class="dropdown" id="filter-dropdown">
+              <button class="flex items-center bg-gray-100 dark:bg-gray-700 rounded-xl px-3 py-1.5 focus:outline-none">
+                <i class="fas fa-filter text-gray-500 dark:text-gray-400 mr-2"></i>
+                <span class="text-sm text-gray-700 dark:text-gray-300">Filters</span>
+                <i class="fas fa-chevron-down text-gray-500 dark:text-gray-400 ml-1 text-xs"></i>
+              </button>
+              <div class="dropdown-menu absolute right-0 mt-1 w-64 rounded-xl shadow-lg z-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                <div class="p-3">
+                  <h4 class="font-medium text-gray-900 dark:text-white mb-2">Status</h4>
+                  <div class="space-y-2">
+                    <label class="flex items-center">
+                      <input type="checkbox" class="custom-checkbox mr-2" data-filter="status" value="todo">
+                      <span class="text-sm">To Do</span>
+                    </label>
+                    <label class="flex items-center">
+                      <input type="checkbox" class="custom-checkbox mr-2" data-filter="status" value="progress">
+                      <span class="text-sm">In Progress</span>
+                    </label>
+                    <label class="flex items-center">
+                      <input type="checkbox" class="custom-checkbox mr-2" data-filter="status" value="review">
+                      <span class="text-sm">In Review</span>
+                    </label>
+                    <label class="flex items-center">
+                      <input type="checkbox" class="custom-checkbox mr-2" data-filter="status" value="done">
+                      <span class="text-sm">Done</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="p-3 border-t border-gray-200 dark:border-gray-700">
+                  <h4 class="font-medium text-gray-900 dark:text-white mb-2">Priority</h4>
+                  <div class="space-y-2">
+                    <label class="flex items-center">
+                      <input type="checkbox" class="custom-checkbox mr-2" data-filter="priority" value="low">
+                      <span class="text-sm">Low</span>
+                    </label>
+                    <label class="flex items-center">
+                      <input type="checkbox" class="custom-checkbox mr-2" data-filter="priority" value="medium">
+                      <span class="text-sm">Medium</span>
+                    </label>
+                    <label class="flex items-center">
+                      <input type="checkbox" class="custom-checkbox mr-2" data-filter="priority" value="high">
+                      <span class="text-sm">High</span>
+                    </label>
+                    <label class="flex items-center">
+                      <input type="checkbox" class="custom-checkbox mr-2" data-filter="priority" value="critical">
+                      <span class="text-sm">Critical</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="p-3 border-t border-gray-200 dark:border-gray-700">
+                  <h4 class="font-medium text-gray-900 dark:text-white mb-2">Assignees</h4>
+                  <div class="space-y-2 max-h-32 overflow-y-auto">
+                    <label class="flex items-center">
+                      <input type="checkbox" class="custom-checkbox mr-2" data-filter="assignee" value="u1">
+                      <span class="text-sm">Alex Rivera</span>
+                    </label>
+                    <label class="flex items-center">
+                      <input type="checkbox" class="custom-checkbox mr-2" data-filter="assignee" value="u2">
+                      <span class="text-sm">Sam Chen</span>
+                    </label>
+                    <label class="flex items-center">
+                      <input type="checkbox" class="custom-checkbox mr-2" data-filter="assignee" value="u3">
+                      <span class="text-sm">Taylor Kim</span>
+                    </label>
+                    <label class="flex items-center">
+                      <input type="checkbox" class="custom-checkbox mr-2" data-filter="assignee" value="u4">
+                      <span class="text-sm">Jordan Lee</span>
+                    </label>
+                    <label class="flex items-center">
+                      <input type="checkbox" class="custom-checkbox mr-2" data-filter="assignee" value="u5">
+                      <span class="text-sm">Morgan Smith</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="p-3 border-t border-gray-200 dark:border-gray-700 flex justify-end">
+                  <button id="apply-filters-btn" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg">Apply</button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Sort Dropdown -->
+            <div class="dropdown" id="sort-dropdown">
+              <button class="flex items-center bg-gray-100 dark:bg-gray-700 rounded-xl px-3 py-1.5 focus:outline-none">
+                <i class="fas fa-sort text-gray-500 dark:text-gray-400 mr-2"></i>
+                <span class="text-sm text-gray-700 dark:text-gray-300">Sort: Priority</span>
+                <i class="fas fa-chevron-down text-gray-500 dark:text-gray-400 ml-1 text-xs"></i>
+              </button>
+              <div class="dropdown-menu absolute right-0 mt-1 w-48 rounded-xl shadow-lg z-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                <button class="dropdown-item text-sm" data-sort="priority">Priority</button>
+                <button class="dropdown-item text-sm" data-sort="dueDate">Due Date</button>
+                <button class="dropdown-item text-sm" data-sort="createdAt">Created Date</button>
+                <button class="dropdown-item text-sm" data-sort="updatedAt">Updated Date</button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flex items-center space-x-2">
+            <div class="hidden md:block w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm">AR</div>
+            <span class="hidden md:block text-sm font-medium">Alex Rivera</span>
+            <i class="fas fa-chevron-down text-xs text-gray-500"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- View Navigation -->
+      <div id="view-tabs" class="flex items-center px-6 py-3 bg-gray-50 dark:bg-gray-800/30 border-b border-gray-200 dark:border-gray-700">
+        <div class="flex space-x-1">
+          <button id="tab-dashboard" class="px-5 py-2.5 text-sm font-medium rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors active-tab">
+            <i class="fas fa-home mr-2"></i>
+            Dashboard
+          </button>
+          <button id="tab-board" class="px-5 py-2.5 text-sm font-medium rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+            <i class="fas fa-columns mr-2"></i>
+            Board
+          </button>
+          <button id="tab-list" class="px-5 py-2.5 text-sm font-medium rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+            <i class="fas fa-list mr-2"></i>
+            List
+          </button>
+          <button id="tab-calendar" class="px-5 py-2.5 text-sm font-medium rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+            <i class="fas fa-calendar-alt mr-2"></i>
+            Calendar
+          </button>
+          <button id="tab-timeline" class="px-5 py-2.5 text-sm font-medium rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+            <i class="fas fa-chart-line mr-2"></i>
+            Timeline
+          </button>
+        </div>
+
+        <div class="ml-auto flex flex-wrap items-center gap-3">
+          <div class="flex items-center bg-white dark:bg-gray-800 rounded-xl px-4 py-2 shadow-sm">
+            <i class="fas fa-search text-gray-500 dark:text-gray-400 mr-2"></i>
+            <input 
+              type="text" 
+              id="view-search" 
+              placeholder="Search tasks..." 
+              class="bg-transparent border-none focus:outline-none text-sm w-40 md:w-64"
+            >
+          </div>
+          
+          <!-- Filter Pills Container -->
+          <div id="filter-pills" class="flex flex-wrap items-center">
+            <!-- Filter pills will be added here dynamically -->
+          </div>
+          
+          <button id="view-settings-btn" class="p-2.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+            <i class="fas fa-cog"></i>
+          </button>
+          
+          <button id="new-task-btn" class="flex items-center px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl transition-all shadow-md hover:shadow-lg">
+            <i class="fas fa-plus mr-2"></i>
+            <span>New Task</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Content Area -->
+      <main class="flex-1 overflow-hidden">
+        <!-- Dashboard View -->
+        <div id="dashboard-view" class="p-6">
+          <!-- Header Stats -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-gray-700 card-shadow">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Tasks</p>
+                  <p class="text-3xl font-bold text-gray-900 dark:text-white mt-1">84</p>
+                </div>
+                <div class="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-xl">
+                  <i class="fas fa-tasks text-blue-600 dark:text-blue-400 text-xl"></i>
+                </div>
+              </div>
+              <div class="mt-5">
+                <div class="flex justify-between text-sm mb-2">
+                  <span class="text-gray-600 dark:text-gray-300">Completed</span>
+                  <span class="font-semibold text-green-600 dark:text-green-400">68%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 68%"></div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-gray-700 card-shadow">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm font-medium text-gray-500 dark:text-gray-400">In Progress</p>
+                  <p class="text-3xl font-bold text-gray-900 dark:text-white mt-1">24</p>
+                </div>
+                <div class="p-3 bg-amber-100 dark:bg-amber-900/30 rounded-xl">
+                  <i class="fas fa-hourglass-half text-amber-600 dark:text-amber-400 text-xl"></i>
+                </div>
+              </div>
+              <div class="mt-5">
+                <div class="flex justify-between text-sm mb-2">
+                  <span class="text-gray-600 dark:text-gray-300">Due Soon</span>
+                  <span class="font-semibold text-amber-600 dark:text-amber-400">8</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill bg-amber-500" style="width: 42%"></div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-gray-700 card-shadow">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Team Velocity</p>
+                  <p class="text-3xl font-bold text-gray-900 dark:text-white mt-1">23.7</p>
+                </div>
+                <div class="p-3 bg-green-100 dark:bg-green-900/30 rounded-xl">
+                  <i class="fas fa-bolt text-green-600 dark:text-green-400 text-xl"></i>
+                </div>
+              </div>
+              <div class="mt-5">
+                <div class="flex justify-between text-sm mb-2">
+                  <span class="text-gray-600 dark:text-gray-300">Last Sprint</span>
+                  <span class="font-semibold">18.2</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill bg-green-500" style="width: 130%"></div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-gray-700 card-shadow">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Team Health</p>
+                  <p class="text-3xl font-bold text-gray-900 dark:text-white mt-1">94%</p>
+                </div>
+                <div class="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-xl">
+                  <i class="fas fa-heart text-purple-600 dark:text-purple-400 text-xl"></i>
+                </div>
+              </div>
+              <div class="mt-5">
+                <div class="flex justify-between text-sm mb-2">
+                  <span class="text-gray-600 dark:text-gray-300">On Track</span>
+                  <span class="font-semibold text-green-600 dark:text-green-400">Yes</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill bg-purple-500" style="width: 94%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts & Activity -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Burndown Chart -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-gray-700 card-shadow lg:col-span-2">
+              <div class="flex items-center justify-between mb-6">
+                <div>
+                  <h3 class="text-lg font-bold text-gray-900 dark:text-white">Sprint Burndown</h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Sprint #24 · Jun 1 - Jun 14</p>
+                </div>
+                <div class="flex space-x-2">
+                  <button class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <i class="fas fa-download text-gray-500 dark:text-gray-400"></i>
+                  </button>
+                  <button class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <i class="fas fa-ellipsis-h text-gray-500 dark:text-gray-400"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="h-80 flex items-end justify-between">
+                <div class="flex w-full justify-between mb-2">
+                  <span class="text-xs text-gray-500 dark:text-gray-400">Mon</span>
+                  <span class="text-xs text-gray-500 dark:text-gray-400">Tue</span>
+                  <span class="text-xs text-gray-500 dark:text-gray-400">Wed</span>
+                  <span class="text-xs text-gray-500 dark:text-gray-400">Thu</span>
+                  <span class="text-xs text-gray-500 dark:text-gray-400">Fri</span>
+                  <span class="text-xs text-gray-500 dark:text-gray-400">Sat</span>
+                  <span class="text-xs text-gray-500 dark:text-gray-400">Sun</span>
+                </div>
+                <div class="flex w-full justify-between">
+                  <div class="flex flex-col items-center">
+                    <div class="w-8 bg-gray-200 dark:bg-gray-700 rounded-t-lg" style="height: 90%"></div>
+                    <span class="mt-1 text-xs font-medium text-gray-900 dark:text-white">120</span>
+                  </div>
+                  <div class="flex flex-col items-center">
+                    <div class="w-8 bg-blue-500 rounded-t-lg" style="height: 78%"></div>
+                    <span class="mt-1 text-xs font-medium text-gray-900 dark:text-white">104</span>
+                  </div>
+                  <div class="flex flex-col items-center">
+                    <div class="w-8 bg-blue-500 rounded-t-lg" style="height: 65%"></div>
+                    <span class="mt-1 text-xs font-medium text-gray-900 dark:text-white">86</span>
+                  </div>
+                  <div class="flex flex-col items-center">
+                    <div class="w-8 bg-blue-500 rounded-t-lg" style="height: 52%"></div>
+                    <span class="mt-1 text-xs font-medium text-gray-900 dark:text-white">69</span>
+                  </div>
+                  <div class="flex flex-col items-center">
+                    <div class="w-8 bg-blue-500 rounded-t-lg" style="height: 38%"></div>
+                    <span class="mt-1 text-xs font-medium text-gray-900 dark:text-white">50</span>
+                  </div>
+                  <div class="flex flex-col items-center">
+                    <div class="w-8 bg-green-500 rounded-t-lg" style="height: 22%"></div>
+                    <span class="mt-1 text-xs font-medium text-gray-900 dark:text-white">29</span>
+                  </div>
+                  <div class="flex flex-col items-center">
+                    <div class="w-8 bg-green-500 rounded-t-lg" style="height: 8%"></div>
+                    <span class="mt-1 text-xs font-medium text-gray-900 dark:text-white">11</span>
+                  </div>
+                </div>
+                <div class="w-full h-0.5 bg-gray-200 dark:bg-gray-700 mt-4"></div>
+              </div>
+              <div class="mt-4 flex items-center text-xs text-gray-500 dark:text-gray-400">
+                <div class="flex items-center mr-4">
+                  <div class="w-3 h-3 bg-blue-500 rounded-full mr-1.5"></div>
+                  <span>Actual</span>
+                </div>
+                <div class="flex items-center">
+                  <div class="w-3 h-3 bg-gray-300 dark:bg-gray-600 rounded-full mr-1.5"></div>
+                  <span>Ideal</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-gray-700 card-shadow">
+              <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white">Recent Activity</h3>
+                <button class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-medium">
+                  View All
+                </button>
+              </div>
+              <div id="activity-feed" class="space-y-4 max-h-80 overflow-y-auto pr-2">
+                <!-- Activity items populated by JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Task Distribution -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-gray-700 card-shadow">
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Task Distribution</h3>
+              <div class="h-64 flex items-center justify-center">
+                <div class="relative w-48 h-48">
+                  <div class="absolute inset-0 rounded-full border-8 border-blue-200 dark:border-blue-900/50"></div>
+                  <div class="absolute inset-0 rounded-full border-8 border-blue-500 dark:border-blue-600" 
+                       style="clip-path: inset(0 0 0 50%); transform: rotate(144deg);"></div>
+                  <div class="absolute inset-0 rounded-full border-8 border-green-500 dark:border-green-600" 
+                       style="clip-path: inset(0 0 0 50%); transform: rotate(288deg);"></div>
+                  <div class="absolute inset-0 rounded-full border-8 border-amber-500 dark:border-amber-600" 
+                       style="clip-path: inset(0 0 0 50%); transform: rotate(360deg);"></div>
+                  <div class="absolute inset-4 flex items-center justify-center">
+                    <span class="text-2xl font-bold text-gray-900 dark:text-white">84</span>
+                    <span class="text-sm text-gray-500 dark:text-gray-400 ml-1">Tasks</span>
+                  </div>
+                </div>
+                <div class="ml-8">
+                  <div class="flex items-center mb-3">
+                    <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                    <span class="text-sm font-medium text-gray-900 dark:text-white">To Do</span>
+                    <span class="ml-2 text-sm text-gray-500 dark:text-gray-400">32 (38%)</span>
+                  </div>
+                  <div class="flex items-center mb-3">
+                    <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                    <span class="text-sm font-medium text-gray-900 dark:text-white">In Progress</span>
+                    <span class="ml-2 text-sm text-gray-500 dark:text-gray-400">24 (29%)</span>
+                  </div>
+                  <div class="flex items-center mb-3">
+                    <div class="w-3 h-3 bg-amber-500 rounded-full mr-2"></div>
+                    <span class="text-sm font-medium text-gray-900 dark:text-white">Review</span>
+                    <span class="ml-2 text-sm text-gray-500 dark:text-gray-400">10 (12%)</span>
+                  </div>
+                  <div class="flex items-center">
+                    <div class="w-3 h-3 bg-gray-300 dark:bg-gray-600 rounded-full mr-2"></div>
+                    <span class="text-sm font-medium text-gray-900 dark:text-white">Done</span>
+                    <span class="ml-2 text-sm text-gray-500 dark:text-gray-400">18 (21%)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-gray-700 card-shadow">
+              <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white">Upcoming Deadlines</h3>
+                <button class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-medium">
+                  View All
+                </button>
+              </div>
+              <div class="space-y-4">
+                <div class="flex items-center p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                  <div class="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center mr-3">
+                    <i class="fas fa-exclamation-triangle text-red-600 dark:text-red-400"></i>
+                  </div>
+                  <div class="flex-1">
+                    <p class="font-medium text-gray-900 dark:text-white">Implement real-time sync engine</p>
+                    <div class="flex items-center mt-1">
+                      <span class="text-xs text-gray-500 dark:text-gray-400 mr-3">Due in 2 days</span>
+                      <span class="priority-badge priority-critical">Critical</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                  <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center mr-3">
+                    <i class="fas fa-bug text-amber-600 dark:text-amber-400"></i>
+                  </div>
+                  <div class="flex-1">
+                    <p class="font-medium text-gray-900 dark:text-white">Fix race condition in WebSocket</p>
+                    <div class="flex items-center mt-1">
+                      <span class="text-xs text-gray-500 dark:text-gray-400 mr-3">Due in 3 days</span>
+                      <span class="priority-badge priority-high">High</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                  <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mr-3">
+                    <i class="fas fa-code text-blue-600 dark:text-blue-400"></i>
+                  </div>
+                  <div class="flex-1">
+                    <p class="font-medium text-gray-900 dark:text-white">Optimize board rendering</p>
+                    <div class="flex items-center mt-1">
+                      <span class="text-xs text-gray-500 dark:text-gray-400 mr-3">Due in 5 days</span>
+                      <span class="priority-badge priority-medium">Medium</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                  <div class="w-10 h-10 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center mr-3">
+                    <i class="fas fa-paint-brush text-green-600 dark:text-green-400"></i>
+                  </div>
+                  <div class="flex-1">
+                    <p class="font-medium text-gray-900 dark:text-white">Design analytics dashboard</p>
+                    <div class="flex items-center mt-1">
+                      <span class="text-xs text-gray-500 dark:text-gray-400 mr-3">Due in 7 days</span>
+                      <span class="priority-badge priority-low">Low</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Board View -->
+        <div id="board-view" class="flex-1 overflow-x-auto pb-6 hidden">
+          <div class="flex p-5 min-h-full">
+            <!-- To Do List -->
+            <div id="list-todo" class="mr-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 min-w-[320px] transition-all">
+              <div class="flex items-center justify-between mb-5">
+                <div>
+                  <h3 class="font-bold text-gray-900 dark:text-white text-lg">To Do</h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">12 tasks</p>
+                </div>
+                <div class="flex space-x-1.5">
+                  <button class="p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <i class="fas fa-ellipsis-h text-sm"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="space-y-4 min-h-[30px]">
+                <!-- Tasks populated by JS -->
+              </div>
+
+              <button id="add-card-todo" class="w-full mt-4 flex items-center justify-center px-4 py-3 text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                <i class="fas fa-plus mr-2"></i>
+                Add a card
+              </button>
+            </div>
+
+            <!-- In Progress List -->
+            <div id="list-progress" class="mr-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 min-w-[320px] transition-all">
+              <div class="flex items-center justify-between mb-5">
+                <div>
+                  <h3 class="font-bold text-gray-900 dark:text-white text-lg">In Progress</h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">8 tasks</p>
+                </div>
+                <div class="flex space-x-1.5">
+                  <button class="p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <i class="fas fa-ellipsis-h text-sm"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="space-y-4 min-h-[30px]">
+                <!-- Tasks populated by JS -->
+              </div>
+
+              <button id="add-card-progress" class="w-full mt-4 flex items-center justify-center px-4 py-3 text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                <i class="fas fa-plus mr-2"></i>
+                Add a card
+              </button>
+            </div>
+
+            <!-- Review List -->
+            <div id="list-review" class="mr-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 min-w-[320px] transition-all">
+              <div class="flex items-center justify-between mb-5">
+                <div>
+                  <h3 class="font-bold text-gray-900 dark:text-white text-lg">In Review</h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">4 tasks</p>
+                </div>
+                <div class="flex space-x-1.5">
+                  <button class="p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <i class="fas fa-ellipsis-h text-sm"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="space-y-4 min-h-[30px]">
+                <!-- Tasks populated by JS -->
+              </div>
+
+              <button id="add-card-review" class="w-full mt-4 flex items-center justify-center px-4 py-3 text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                <i class="fas fa-plus mr-2"></i>
+                Add a card
+              </button>
+            </div>
+
+            <!-- Done List -->
+            <div id="list-done" class="mr-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 min-w-[320px] transition-all">
+              <div class="flex items-center justify-between mb-5">
+                <div>
+                  <h3 class="font-bold text-gray-900 dark:text-white text-lg">Done</h3>
+                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">10 tasks</p>
+                </div>
+                <div class="flex space-x-1.5">
+                  <button class="p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <i class="fas fa-ellipsis-h text-sm"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="space-y-4 min-h-[30px]">
+                <!-- Tasks populated by JS -->
+              </div>
+
+              <button id="add-card-done" class="w-full mt-4 flex items-center justify-center px-4 py-3 text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                <i class="fas fa-plus mr-2"></i>
+                Add a card
+              </button>
+            </div>
+
+            <!-- Add List -->
+            <div class="flex items-start mt-4">
+              <button id="add-list-btn" class="flex items-center px-5 py-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                <i class="fas fa-plus mr-2"></i>
+                <span>Add another list</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- List View -->
+        <div id="list-view" class="p-6 hidden">
+          <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden border border-gray-100 dark:border-gray-700">
+            <div class="p-5 border-b border-gray-100 dark:border-gray-700">
+              <div class="flex items-center justify-between">
+                <h2 class="text-lg font-bold text-gray-900 dark:text-white">All Tasks</h2>
+                <div class="flex space-x-3">
+                  <!-- Status Filter -->
+                  <div class="relative">
+                    <select id="list-status-filter" class="bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                      <option value="">All Status</option>
+                      <option value="todo">To Do</option>
+                      <option value="progress">In Progress</option>
+                      <option value="review">In Review</option>
+                      <option value="done">Done</option>
+                    </select>
+                  </div>
+                  <!-- Priority Filter -->
+                  <div class="relative">
+                    <select id="list-priority-filter" class="bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                      <option value="">All Priorities</option>
+                      <option value="low">Low</option>
+                      <option value="medium">Medium</option>
+                      <option value="high">High</option>
+                      <option value="critical">Critical</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+              <table class="data-table min-w-full">
+                <thead>
+                  <tr>
+                    <th class="w-12"></th>
+                    <th>Task</th>
+                    <th class="w-48">Status</th>
+                    <th class="w-32">Priority</th>
+                    <th class="w-40">Assignees</th>
+                    <th class="w-32">Due Date</th>
+                    <th class="w-24 text-right">Comments</th>
+                  </tr>
+                </thead>
+                <tbody id="list-view-tbody">
+                  <!-- Tasks populated by JS -->
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="p-4 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
+              <div class="text-sm text-gray-500 dark:text-gray-400">
+                Showing <span id="tasks-shown-count">20</span> of <span id="tasks-total-count">84</span> results
+              </div>
+              <div class="flex space-x-1">
+                <button class="px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="px-3 py-1.5 rounded-lg bg-blue-600 text-white">1</button>
+                <button class="px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">2</button>
+                <button class="px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">3</button>
+                <button class="px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calendar View -->
+        <div id="calendar-view" class="p-6 hidden">
+          <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h2 class="text-lg font-bold text-gray-900 dark:text-white">June 2024</h2>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Showing tasks with due dates</p>
+              </div>
+              <div class="flex space-x-2">
+                <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <i class="fas fa-chevron-left text-gray-500 dark:text-gray-400"></i>
+                </button>
+                <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <i class="fas fa-calendar text-gray-500 dark:text-gray-400"></i>
+                </button>
+                <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <i class="fas fa-chevron-right text-gray-500 dark:text-gray-400"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="calendar">
+              <!-- Headers -->
+              <div class="calendar-day-header">Sun</div>
+              <div class="calendar-day-header">Mon</div>
+              <div class="calendar-day-header">Tue</div>
+              <div class="calendar-day-header">Wed</div>
+              <div class="calendar-day-header">Thu</div>
+              <div class="calendar-day-header">Fri</div>
+              <div class="calendar-day-header">Sat</div>
+              
+              <!-- Days -->
+              <div class="calendar-day">
+                <span class="calendar-day-number text-gray-400">26</span>
+                <div class="calendar-events"></div>
+              </div>
+              <div class="calendar-day">
+                <span class="calendar-day-number text-gray-400">27</span>
+                <div class="calendar-events"></div>
+              </div>
+              <div class="calendar-day">
+                <span class="calendar-day-number text-gray-400">28</span>
+                <div class="calendar-events"></div>
+              </div>
+              <div class="calendar-day">
+                <span class="calendar-day-number text-gray-400">29</span>
+                <div class="calendar-events"></div>
+              </div>
+              <div class="calendar-day">
+                <span class="calendar-day-number text-gray-400">30</span>
+                <div class="calendar-events"></div>
+              </div>
+              <div class="calendar-day">
+                <span class="calendar-day-number text-gray-400">31</span>
+                <div class="calendar-events"></div>
+              </div>
+              <div class="calendar-day">
+                <span class="calendar-day-number">1</span>
+                <div class="calendar-events"></div>
+              </div>
+              
+              <div class="calendar-day">
+                <span class="calendar-day-number">2</span>
+                <div class="calendar-events"></div>
+              </div>
+              <div class="calendar-day">
+                <span class="calendar-day-number">3</span>
+                <div class="calendar-events"></div>
+              </div>
+              <div class="calendar-day today">
+                <span class="calendar-day-number">4</span>
+                <div class="calendar-events">
+                  <div class="calendar-event">Team Standup</div>
+                </div>
+              </div>
+              <div class="calendar-day">
+                <span class="calendar-day-number">5</span>
+                <div class="calendar-events">
+                  <div class="calendar-event">Sprint Planning</div>
+                </div>
+              </div>
+              <div class="calendar-day">
+                <span class="calendar-day-number">6</span>
+                <div class="calendar-events"></div>
+              </div>
+              <div class="calendar-day">
+                <span class="calendar-day-number">7</span>
+                <div class="calendar-events">
+                  <div class="calendar-event">Design Review</div>
+                </div>
+              </div>
+              <div class="calendar-day">
+                <span class="calendar-day-number">8</span>
+                <div class="calendar-events">
+                  <div class="calendar-event">Client Meeting</div>
+                </div>
+              </div>
+              
+              <div class="calendar-day">
+                <span class="calendar-day-number">9</span>
+                <div class="calendar-events"></div>
+              </div>
+              <div class="calendar-day">
+                <span class="calendar-day-number">10</span>
+                <div class="calendar-events">
+                  <div class="calendar-event priority-critical">Sync Engine Demo</div>
+                </div>
+              </div>
+              <div class="calendar-day">
+                <span class="calendar-day-number">11</span>
+                <div class="calendar-events"></div>
+              </div>
+              <div class="calendar-day">
+                <span class="calendar-day-number">12</span>
+                <div class="calendar-events">
+                  <div class="calendar-event">Code Freeze</div>
+                </div>
+              </div>
+              <div class="calendar-day">
+                <span class="calendar-day-number">13</span>
+                <div class="calendar-events"></div>
+              </div>
+              <div class="calendar-day">
+                <span class="calendar-day-number">14</span>
+                <div class="calendar-events">
+                  <div class="calendar-event">Sprint Review</div>
+                </div>
+              </div>
+              <div class="calendar-day">
+                <span class="calendar-day-number">15</span>
+                <div class="calendar-events"></div>
+              </div>
+              
+              <!-- Remaining days would be added here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline View -->
+        <div id="timeline-view" class="p-6 hidden">
+          <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 border border-gray-100 dark:border-gray-700">
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-lg font-bold text-gray-900 dark:text-white">Project Timeline</h2>
+              <div class="flex space-x-3">
+                <button class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                  <i class="fas fa-download mr-2"></i>
+                  Export
+                </button>
+              </div>
+            </div>
+            
+            <div class="relative">
+              <!-- Timeline line -->
+              <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700"></div>
+              
+              <!-- Timeline items -->
+              <div class="space-y-8 ml-16">
+                <div class="flex">
+                  <div class="w-16 flex-shrink-0 text-right text-sm text-gray-500 dark:text-gray-400 pr-4">
+                    Jun 1
+                  </div>
+                  <div class="flex-1">
+                    <div class="flex items-start">
+                      <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-white mr-3 -ml-7">
+                        <i class="fas fa-flag text-xs"></i>
+                      </div>
+                      <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-4 flex-1">
+                        <div class="flex items-start justify-between">
+                          <h3 class="font-bold text-gray-900 dark:text-white">Sprint #24 Starts</h3>
+                          <span class="text-xs bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full">
+                            Milestone
+                          </span>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">
+                          Planning complete. 24 tasks committed for this sprint.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="flex">
+                  <div class="w-16 flex-shrink-0 text-right text-sm text-gray-500 dark:text-gray-400 pr-4">
+                    Jun 4
+                  </div>
+                  <div class="flex-1">
+                    <div class="flex items-start">
+                      <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white mr-3 -ml-7">
+                        <i class="fas fa-play text-xs"></i>
+                      </div>
+                      <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4 flex-1">
+                        <div class="flex items-start justify-between">
+                          <h3 class="font-bold text-gray-900 dark:text-white">Development Begins</h3>
+                          <span class="text-xs bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-200 px-2 py-1 rounded-full">
+                            Phase
+                          </span>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">
+                          Core team starts implementation of real-time sync engine.
+                        </p>
+                        <div class="mt-3 flex flex-wrap gap-2">
+                          <span class="px-2 py-1 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded text-xs">
+                            <i class="fas fa-user mr-1"></i> Alex Rivera
+                          </span>
+                          <span class="px-2 py-1 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded text-xs">
+                            <i class="fas fa-user mr-1"></i> Sam Chen
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="flex">
+                  <div class="w-16 flex-shrink-0 text-right text-sm text-gray-500 dark:text-gray-400 pr-4">
+                    Jun 8
+                  </div>
+                  <div class="flex-1">
+                    <div class="flex items-start">
+                      <div class="w-6 h-6 rounded-full bg-amber-500 flex items-center justify-center text-white mr-3 -ml-7">
+                        <i class="fas fa-exclamation-triangle text-xs"></i>
+                      </div>
+                      <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4 flex-1">
+                        <div class="flex items-start justify-between">
+                          <h3 class="font-bold text-gray-900 dark:text-white">Critical Deadline</h3>
+                          <span class="text-xs bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 px-2 py-1 rounded-full">
+                            Deadline
+                          </span>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">
+                          Implement real-time sync engine must be completed for demo.
+                        </p>
+                        <div class="mt-3">
+                          <div class="flex justify-between text-xs mb-1">
+                            <span class="font-medium">Progress</span>
+                            <span>75%</span>
+                          </div>
+                          <div class="progress-bar">
+                            <div class="progress-fill bg-amber-500" style="width: 75%"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="flex">
+                  <div class="w-16 flex-shrink-0 text-right text-sm text-gray-500 dark:text-gray-400 pr-4">
+                    Jun 14
+                  </div>
+                  <div class="flex-1">
+                    <div class="flex items-start">
+                      <div class="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center text-white mr-3 -ml-7">
+                        <i class="fas fa-trophy text-xs"></i>
+                      </div>
+                      <div class="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl p-4 flex-1">
+                        <div class="flex items-start justify-between">
+                          <h3 class="font-bold text-gray-900 dark:text-white">Sprint Review</h3>
+                          <span class="text-xs bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-200 px-2 py-1 rounded-full">
+                            Event
+                          </span>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">
+                          Demo new features to stakeholders and collect feedback.
+                        </p>
+                        <div class="mt-3 flex flex-wrap gap-2">
+                          <span class="px-2 py-1 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded text-xs">
+                            <i class="fas fa-users mr-1"></i> All Team
+                          </span>
+                          <span class="px-2 py-1 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded text-xs">
+                            <i class="fas fa-map-marker-alt mr-1"></i> Conference Room B
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="flex">
+                  <div class="w-16 flex-shrink-0 text-right text-sm text-gray-500 dark:text-gray-400 pr-4">
+                    Jun 15
+                  </div>
+                  <div class="flex-1">
+                    <div class="flex items-start">
+                      <div class="w-6 h-6 rounded-full bg-gray-500 flex items-center justify-center text-white mr-3 -ml-7">
+                        <i class="fas fa-flag-checkered text-xs"></i>
+                      </div>
+                      <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 flex-1">
+                        <div class="flex items-start justify-between">
+                          <h3 class="font-bold text-gray-900 dark:text-white">Sprint #24 Ends</h3>
+                          <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded-full">
+                            Milestone
+                          </span>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">
+                          Target: Complete all 24 committed tasks.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div id="right-panel" class="hidden w-96 bg-gray-50 dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 flex flex-col">
+          <!-- Panel Header -->
+          <div class="p-5 border-b border-gray-200 dark:border-gray-700">
+            <div class="flex items-center justify-between">
+              <h2 class="font-bold text-gray-900 dark:text-white">Task Details</h2>
+              <button id="close-panel-btn" class="p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Panel Content -->
+          <div id="panel-content" class="flex-1 overflow-y-auto">
+            <!-- Task Details Placeholder -->
+            <div id="task-details-placeholder" class="text-center py-12 px-6 text-gray-500 dark:text-gray-400">
+              <div class="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-info-circle text-2xl text-gray-400 dark:text-gray-500"></i>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">No Task Selected</h3>
+              <p class="text-sm">Click on a task to view and edit its details</p>
+            </div>
+
+            <!-- Task Details -->
+            <div id="task-details" class="hidden p-6">
+              <div class="mb-6">
+                <div class="flex items-start justify-between mb-4">
+                  <h3 id="task-title" class="text-xl font-bold text-gray-900 dark:text-white flex-1">Implement real-time sync engine</h3>
+                  <div class="flex space-x-2 ml-4">
+                    <button class="p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <i class="fas fa-star"></i>
+                    </button>
+                    <button class="p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                  </div>
+                </div>
+                <p id="task-description" class="text-gray-600 dark:text-gray-300 mt-2 line-clamp-3">
+                  Design CRDT-based conflict resolution for card movements. Ensure p99 latency < 200ms. Implement optimistic UI updates with rollback capability.
+                </p>
+                <button id="edit-description-btn" class="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center">
+                  <i class="fas fa-edit mr-1"></i>
+                  Edit description
+                </button>
+              </div>
+
+              <!-- Task Meta -->
+              <div class="space-y-5 mb-6">
+                <div>
+                  <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">Assignees</h4>
+                  <div id="task-assignees" class="flex flex-wrap gap-2">
+                    <!-- Assignees populated by JS -->
+                  </div>
+                  <button id="add-assignee-btn" class="mt-2 flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+                    <i class="fas fa-plus mr-1"></i>
+                    Add assignee
+                  </button>
+                </div>
+
+                <div>
+                  <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">Labels</h4>
+                  <div id="task-labels" class="flex flex-wrap gap-2">
+                    <!-- Labels populated by JS -->
+                  </div>
+                  <button id="add-label-btn" class="mt-2 flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+                    <i class="fas fa-plus mr-1"></i>
+                    Add label
+                  </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Due Date</label>
+                    <div class="flex items-center">
+                      <div class="w-9 h-9 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mr-3">
+                        <i class="fas fa-calendar text-blue-600 dark:text-blue-400"></i>
+                      </div>
+                      <span id="task-due-date" class="font-medium text-gray-900 dark:text-white">Jun 8, 2024</span>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Priority</label>
+                    <div class="flex items-center">
+                      <div class="w-9 h-9 rounded-lg bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center mr-3">
+                        <i class="fas fa-arrow-up text-amber-600 dark:text-amber-400"></i>
+                      </div>
+                      <span class="font-medium text-amber-600 dark:text-amber-400">High</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Checklist</h4>
+                    <span id="checklist-progress" class="text-sm text-gray-500 dark:text-gray-400">3/5</span>
+                  </div>
+                  <div id="task-checklist" class="space-y-3">
+                    <!-- Checklist items populated by JS -->
+                  </div>
+                  <button id="add-checklist-item-btn" class="mt-3 flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+                    <i class="fas fa-plus mr-1"></i>
+                    Add item
+                  </button>
+                </div>
+
+                <div>
+                  <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">Attachments</h4>
+                  <div class="space-y-2">
+                    <div class="flex items-center p-2 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                      <div class="w-8 h-8 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center mr-3">
+                        <i class="fas fa-file-pdf text-red-600 dark:text-red-400"></i>
+                      </div>
+                      <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900 dark:text-white">CRDT-Research.pdf</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">2.4 MB</p>
+                      </div>
+                      <button class="p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                        <i class="fas fa-download"></i>
+                      </button>
+                    </div>
+                    <div class="flex items-center p-2 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                      <div class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mr-3">
+                        <i class="fas fa-file-image text-blue-600 dark:text-blue-400"></i>
+                      </div>
+                      <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900 dark:text-white">Architecture-Diagram.png</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">1.2 MB</p>
+                      </div>
+                      <button class="p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                        <i class="fas fa-download"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <button class="mt-3 flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+                    <i class="fas fa-paperclip mr-1"></i>
+                    Attach files
+                  </button>
+                </div>
+              </div>
+
+              <!-- Comments Section -->
+              <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
+                <div class="flex items-center justify-between mb-4">
+                  <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400">Comments (4)</h4>
+                  <button class="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+                    Sort by: Newest
+                  </button>
+                </div>
+                
+                <div id="comments-list" class="space-y-4 mb-4 max-h-96 overflow-y-auto pr-2">
+                  <!-- Comments populated by JS -->
+                </div>
+                
+                <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
+                  <div class="flex items-center mb-3">
+                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium text-sm mr-2">AR</div>
+                    <span class="text-sm font-medium">Alex Rivera</span>
+                    <div class="ml-2 flex space-x-0.5">
+                      <span class="typing-indicator"></span>
+                      <span class="typing-indicator"></span>
+                      <span class="typing-indicator"></span>
+                    </div>
+                  </div>
+                  <textarea 
+                    id="comment-input" 
+                    placeholder="Write a comment..." 
+                    class="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 input-focus"
+                    rows="3"
+                  ></textarea>
+                  <div class="flex justify-between items-center mt-3">
+                    <div class="flex space-x-2">
+                      <button class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <i class="fas fa-paperclip"></i>
+                      </button>
+                      <button class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <i class="fas fa-smile"></i>
+                      </button>
+                    </div>
+                    <button id="post-comment-btn" class="px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-sm font-medium rounded-xl transition-all shadow-sm hover:shadow">
+                      Comment
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Floating Action Button -->
+  <div id="fab" class="fab">
+    <i class="fas fa-plus"></i>
+  </div>
+
+  <!-- Modals -->
+  <!-- New Task Modal -->
+  <div id="new-task-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="border-b border-gray-200 dark:border-gray-700 p-5">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-bold">Create New Task</h3>
+          <button id="close-new-task-modal" class="p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="p-5">
+        <div class="space-y-5">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Title</label>
+            <input 
+              type="text" 
+              id="task-title-input" 
+              class="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 input-focus"
+              placeholder="Task title"
+            >
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
+            <textarea 
+              id="task-description-input" 
+              class="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 input-focus"
+              rows="4"
+              placeholder="Task description (supports Markdown)"
+            ></textarea>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Assignees</label>
+              <div id="assignee-select" class="relative">
+                <button id="assignee-toggle" class="w-full flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <span id="assignee-placeholder" class="text-gray-500 dark:text-gray-400">Select assignees</span>
+                  <i class="fas fa-chevron-down text-gray-500"></i>
+                </button>
+                <div id="assignee-dropdown" class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl shadow-lg hidden">
+                  <div class="p-2 max-h-48 overflow-y-auto">
+                    <div class="flex items-center p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg cursor-pointer">
+                      <input type="checkbox" class="custom-checkbox mr-3">
+                      <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium text-sm mr-3">AR</div>
+                      <span class="font-medium">Alex Rivera</span>
+                    </div>
+                    <div class="flex items-center p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg cursor-pointer">
+                      <input type="checkbox" class="custom-checkbox mr-3">
+                      <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white font-medium text-sm mr-3">SC</div>
+                      <span class="font-medium">Sam Chen</span>
+                    </div>
+                    <div class="flex items-center p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg cursor-pointer">
+                      <input type="checkbox" class="custom-checkbox mr-3">
+                      <div class="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center text-white font-medium text-sm mr-3">TK</div>
+                      <span class="font-medium">Taylor Kim</span>
+                    </div>
+                    <div class="flex items-center p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg cursor-pointer">
+                      <input type="checkbox" class="custom-checkbox mr-3">
+                      <div class="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center text-white font-medium text-sm mr-3">JL</div>
+                      <span class="font-medium">Jordan Lee</span>
+                    </div>
+                  </div>
+                  <div class="border-t border-gray-200 dark:border-gray-600 p-3">
+                    <button class="w-full px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-xl">Apply</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Due Date</label>
+              <input 
+                type="date" 
+                id="task-due-date-input" 
+                class="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 input-focus"
+              >
+            </div>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Priority</label>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <button class="priority-badge priority-low w-full justify-center py-2">
+                <i class="fas fa-arrow-down mr-1"></i> Low
+              </button>
+              <button class="priority-badge priority-medium w-full justify-center py-2">
+                <i class="fas fa-minus mr-1"></i> Medium
+              </button>
+              <button class="priority-badge priority-high w-full justify-center py-2">
+                <i class="fas fa-arrow-up mr-1"></i> High
+              </button>
+              <button class="priority-badge priority-critical w-full justify-center py-2">
+                <i class="fas fa-exclamation mr-1"></i> Critical
+              </button>
+            </div>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Labels</label>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-2 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-xl text-sm cursor-pointer hover:bg-red-200 dark:hover:bg-red-800/50 transition-colors">
+                <i class="fas fa-bug mr-1"></i> Bug
+              </span>
+              <span class="px-3 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-xl text-sm cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-800/50 transition-colors">
+                <i class="fas fa-code mr-1"></i> Feature
+              </span>
+              <span class="px-3 py-2 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-xl text-sm cursor-pointer hover:bg-purple-200 dark:hover:bg-purple-800/50 transition-colors">
+                <i class="fas fa-paint-brush mr-1"></i> Design
+              </span>
+              <span class="px-3 py-2 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded-xl text-sm cursor-pointer hover:bg-amber-200 dark:hover:bg-amber-800/50 transition-colors">
+                <i class="fas fa-exclamation-triangle mr-1"></i> Urgent
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-8 flex justify-end space-x-3">
+          <button id="cancel-new-task" class="px-5 py-2.5 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium">
+            Cancel
+          </button>
+          <button id="create-task-btn" class="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl transition-all shadow-md hover:shadow-lg font-medium">
+            Create Task
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="notification-toast" class="toast">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+      <div class="p-5">
+        <div class="flex items-start">
+          <div class="flex-shrink-0 mt-0.5">
+            <div class="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+              <i class="fas fa-check text-green-600 dark:text-green-400 text-xl"></i>
+            </div>
+          </div>
+          <div class="ml-4 flex-1">
+            <p class="text-base font-bold text-gray-900 dark:text-white">
+              <span id="toast-title">Task completed</span>
+            </p>
+            <p class="text-gray-600 dark:text-gray-300 mt-1">
+              <span id="toast-message">"Fix race condition" has been marked as done by Alex Rivera</span>
+            </p>
+            <div class="mt-3 flex items-center text-sm text-gray-500 dark:text-gray-400">
+              <i class="far fa-clock mr-2"></i>
+              <span id="toast-time">just now</span>
+            </div>
+          </div>
+          <button id="close-toast" class="ml-4 flex-shrink-0 text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400">
+            <i class="fas fa-times text-lg"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Task Template -->
+  <template id="task-card-template">
+    <div class="card bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 cursor-pointer transition-all hover:shadow-md draggable card-shadow">
+      <div class="font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 task-title">
+        Implement real-time sync engine
+      </div>
+      
+      <div class="flex flex-wrap gap-2 mb-3">
+        <span class="px-2.5 py-1.5 rounded-xl text-xs font-medium text-white bg-blue-500 task-label">Feature</span>
+        <span class="px-2.5 py-1.5 rounded-xl text-xs font-medium text-white bg-amber-500 task-label">Urgent</span>
+      </div>
+      
+      <div class="flex items-center text-xs text-gray-500 dark:text-gray-400 mb-3">
+        <div class="flex -space-x-2">
+          <div class="w-7 h-7 rounded-full flex items-center justify-center text-white font-medium bg-blue-500 text-xs task-assignee">AR</div>
+          <div class="w-7 h-7 rounded-full flex items-center justify-center text-white font-medium bg-green-500 text-xs task-assignee">SC</div>
+        </div>
+        <span class="ml-3 flex items-center">
+          <i class="far fa-calendar mr-1.5"></i>
+          <span class="task-due-date">Jun 8</span>
+        </span>
+      </div>
+      
+      <div class="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
+        <div class="flex space-x-3">
+          <span class="flex items-center task-comments">
+            <i class="far fa-comment mr-1"></i>
+            <span>4</span>
+          </span>
+          <span class="flex items-center task-attachments">
+            <i class="far fa-paperclip mr-1"></i>
+            <span>2</span>
+          </span>
+        </div>
+        <span class="flex items-center task-checklist">
+          <i class="far fa-check-square mr-1"></i>
+          <span>3/5</span>
+        </span>
+      </div>
+    </div>
+  </template>
+
+</body>
+</html>
+
